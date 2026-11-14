@@ -1,0 +1,5 @@
+.env
+.venv
+__pycache__
+dev_server.py
+start.sh

@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fake it till you make it</title>
+  <meta name="description" content="Rewrite a hopeless CV under time pressure without getting caught lying.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤥</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-screen="start">
+
+  <!-- ============ START ============ -->
+  <section id="screen-start" class="screen active" aria-labelledby="title">
+    <div class="start">
+      <div class="tag">Now hiring · No experience needed*</div>
+      <h1 id="title" class="title">Fake it till you<br><span>make it</span></h1>
+      <p class="pitch">Your dream job. Your hopeless CV. Spin every line into gold before the clock runs out, without the interviewer noticing you're lying.</p>
+      <button id="btn-apply" class="btn btn-light btn-lg" type="button">Apply for a job</button>
+      <ol class="steps">
+        <li>Read the job ad. Pretend you qualify.</li>
+        <li>Rewrite each CV line before the timer ends. <kbd>Enter</kbd> submits.</li>
+        <li>Fill the Hire-o-meter to 60 to get the job.</li>
+        <li>Busted hits 100 and you're out. They remember everything, and they have follow-up questions.</li>
+      </ol>
+      <p class="fineprint">*Experience absolutely needed.</p>
+    </div>
+  </section>
+
+  <!-- ============ JOB AD ============ -->
+  <section id="screen-job" class="screen" aria-labelledby="job-title">
+    <div class="card panel">
+      <div class="eyebrow">Job ad</div>
+      <h2 id="job-title" class="panel-title"></h2>
+      <div id="job-company" class="company"></div>
+      <p id="job-desc" class="desc"></p>
+      <div class="eyebrow">Requirements</div>
+      <ul id="job-criteria" class="checklist"></ul>
+      <div class="panel-footer">
+        <div class="progress" aria-hidden="true"><div id="job-countdown-fill"></div></div>
+        <button id="btn-ready" class="btn btn-primary" type="button">I'm ready to lie</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STAGE INTRO ============ -->
+  <section id="screen-stage" class="screen" aria-labelledby="stage-title">
+    <div class="card panel stage-panel">
+      <div id="stage-eyebrow" class="eyebrow">Stage 2 of 3</div>
+      <h2 id="stage-title" class="panel-title"></h2>
+      <p id="stage-intro" class="desc"></p>
+      <div class="persona">
+        <div id="stage-avatar" class="avatar" aria-hidden="true">🙂</div>
+        <div>
+          <div class="persona-kicker">Your next interviewer</div>
+          <div id="stage-persona" class="persona-name"></div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div id="stage-stats" class="stage-stats"></div>
+        <button id="btn-stage" class="btn btn-primary btn-timed" type="button"><span class="btn-label">Bring it on</span><span class="btn-bar"></span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GAME ============ -->
+  <section id="screen-game" class="screen" aria-label="Interview">
+    <div class="game">
+      <header class="topbar">
+        <div>
+          <div id="stage-label" class="stage-label">Stage 1 of 3 · CV screen</div>
+          <div id="line-counter" class="line-counter">Line 1 of 8</div>
+        </div>
+        <div id="timer" class="timer" role="timer"><span id="timer-value">30</span></div>
+      </header>
+
+      <div class="meters">
+        <div class="meter meter-hire">
+          <div class="meter-head"><span>Hire-o-meter</span><span><b id="hire-value">0</b> / <span id="hire-max">60</span></span></div>
+          <div class="meter-track"><div id="hire-fill" class="meter-fill"></div></div>
+          <span id="hire-delta" class="meter-delta"></span>
+        </div>
+        <div class="meter meter-busted">
+          <div class="meter-head"><span>Busted</span><span><b id="busted-value">0</b> / 100</span></div>
+          <div class="meter-track"><div id="busted-fill" class="meter-fill"></div></div>
+          <span id="busted-delta" class="meter-delta"></span>
+        </div>
+      </div>
+
+      <div class="interviewer">
+        <div id="avatar" class="avatar" aria-hidden="true">🙂</div>
+        <div class="interviewer-body">
+          <div id="persona-name" class="persona-name">Bored Intern</div>
+          <div id="bubble" class="bubble" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <section id="cv-card" class="card cv">
+        <div id="cv-eyebrow" class="eyebrow">Your real CV says</div>
+        <p id="original-line" class="original-line"></p>
+
+        <form id="rewrite-form" autocomplete="off">
+          <label id="rewrite-label" for="rewrite" class="eyebrow">Your version</label>
+          <textarea id="rewrite" maxlength="200" rows="3" spellcheck="false"></textarea>
+          <div id="res-contradiction" class="contradiction" hidden></div>
+          <div id="write-row" class="cv-footer">
+            <span id="char-count" class="char-count">0 / 200</span>
+            <button id="btn-submit" class="btn btn-green" type="submit">Submit ↵</button>
+          </div>
+          <div id="result" class="cv-footer" hidden>
+            <div class="chips">
+              <span id="res-hire" class="chip chip-hire"></span>
+              <span id="res-busted" class="chip chip-busted"></span>
+              <span id="res-time" class="chip chip-time"></span>
+            </div>
+            <button id="btn-next" class="btn btn-primary btn-timed" type="button"><span class="btn-label">Next line</span><span class="btn-bar"></span></button>
+          </div>
+        </form>
+      </section>
+
+      <p class="wants"><span>They want</span> <span id="wants-list"></span></p>
+    </div>
+  </section>
+
+  <!-- ============ END ============ -->
+  <section id="screen-end" class="screen" aria-labelledby="end-title">
+    <div class="end-layout">
+      <div id="end-card" class="card panel end">
+        <div id="end-emoji" class="end-emoji">🎉</div>
+        <h2 id="end-title" class="end-title">Hired!</h2>
+        <p id="end-sub" class="desc end-sub"></p>
+        <div id="end-gaveaway" class="gaveaway" hidden></div>
+        <dl class="score">
+          <div><dt>Hire points</dt><dd id="sc-hire">0</dd></div>
+          <div><dt>Suspicion</dt><dd id="sc-busted">−0</dd></div>
+          <div><dt>Time bonus</dt><dd id="sc-time">+0</dd></div>
+          <div class="score-total"><dt>Final score</dt><dd id="sc-total">0</dd></div>
+        </dl>
+        <button id="btn-again" class="btn btn-primary btn-lg" type="button">Play again</button>
+      </div>
+
+      <div class="card compare">
+        <div class="eyebrow">Your CV, before and after</div>
+        <div class="compare-head" aria-hidden="true"><span>The truth</span><span>What you claimed</span></div>
+        <ol id="compare-list" class="compare-list"></ol>
+      </div>
+    </div>
+  </section>
+
+  <button id="btn-mute" class="mute" type="button" aria-label="Mute sound" title="Sound on/off">
+    <svg class="icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+    <svg class="icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 6 6m0-6-6 6"/></svg>
+  </button>
+
+  <script src="scenarios.js"></script>
+  <script src="sound.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
